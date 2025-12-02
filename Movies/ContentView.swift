@@ -1,14 +1,29 @@
 import SwiftUI
 
+enum Route: Hashable {
+    case movie(Movie)
+    case director(Director)
+    case actor(Actor)
+
+}
+
+
+@Observable
+class PathStore
+{
+    var path = [Route]()
+}
+
+
 struct ContentView: View {
 
-    @Environment(MovieDataStore.self) private var movieDataStore
-    @State private var navigationPath: [Route] = []
+    @Environment(MovieDataStore.self) var movieDataStore
+    @State private var pathStore = PathStore()
 
     var body: some View {
-        NavigationStack(path: $navigationPath) {
+        NavigationStack(path: $pathStore) {
 
-            List(movieDataStore.getMovies()) { movie in
+            List(movieDataStore.getMovies(), id: \.self ) { movie in
                 NavigationLink(value: Route.movie(movie)) {
                     Text(movie.title)
                 }

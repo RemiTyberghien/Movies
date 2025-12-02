@@ -7,7 +7,7 @@ struct MovieDetailView: View {
     var body: some View {
         List {
 
-            // MARK: Title + Release date
+            
             Section("Movie") {
                 Text(movie.title)
                     .font(.title2)
@@ -18,14 +18,14 @@ struct MovieDetailView: View {
                     .foregroundStyle(.secondary)
             }
 
-            // MARK: Director
+          
             Section("Director") {
                 NavigationLink(value: Route.director(movie.director)) {
                     Text(movie.director.firstName + " " + movie.director.lastName)
                 }
             }
 
-            // MARK: Actors
+
             Section("Actors") {
                 ForEach(movie.actors) { actor in
                     NavigationLink(value: Route.actor(actor)) {
