@@ -5,7 +5,7 @@ struct ActorDetailView: View {
     @Environment(MovieDataStore.self) private var movieDataStore
 
     var body: some View {
-        List(movieDataStore.getMovies(actor: actor) id \.self) { movie in
+        List(movieDataStore.getMovies(actor: actor), id: \.self) { movie in
             NavigationLink(value: Route.movie(movie)) {
                 Text(movie.title)
             }

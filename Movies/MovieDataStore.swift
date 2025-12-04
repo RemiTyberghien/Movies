@@ -9,22 +9,24 @@ import Foundation
 
 @Observable
 class MovieDataStore {
-    private var movies = Movies()
+    private var movies : [Movie]
 
-    init() { }
+    init() {
+        movies = []
+    }
 
     func getMovies() -> [Movie] {
-        return movies.movies
+        return movies
     }
 
     func getMovies(actor: Actor) -> [Movie] {
         
-        let movies = movies.movies.filter { movie in movie.actors.contains(actor) }
+        let movies = movies.filter { movie in movie.actors.contains(actor) }
         return movies
     }
 
     func getMovies(director: Director) -> [Movie] {
-        let movies = movies.movies.filter { movie in movie.director == director }
+        let movies = movies.filter { movie in movie.director == director }
         return movies
     }
     
@@ -34,14 +36,11 @@ class MovieDataStore {
         return Array(Set(allActors))
     }
     
-    
-
-    
 
     private func sort() {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        movies.movies.sort {
+        movies.sort {
             guard let d1 = formatter.date(from: $0.releaseDate),
                   let d2 = formatter.date(from: $1.releaseDate) else {
                 return $0.releaseDate < $1.releaseDate
@@ -57,14 +56,13 @@ class MovieDataStore {
             try await Task.sleep(for: .seconds(2))
 
             let data: Movies = load("movies.json")
-            
+            movies = data.movies
 
             sort()
             print("✅ Data loaded successfully.")
 
         } catch {
             print("❌ Failed to load movies:", error)
-            movies = Movies()
         }
     }
 }

@@ -12,7 +12,10 @@ struct MoviesApp: App {
     @State private var movieDataStore = MovieDataStore()
     var body: some Scene {
         WindowGroup {
-            ContentView().environment(movieDataStore)
+            ContentView().environment(movieDataStore).task {
+                await movieDataStore.loadData()
+                
+            }
                 
         }
     }
